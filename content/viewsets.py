@@ -7,9 +7,12 @@ from .serializers import ProductSerializer
 from stores.utils import store_from_request
 
 
+
 class ProductViewSet(viewsets.ModelViewSet):
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    http_method_names = ['get',]
 
     def get_queryset(self):
         store = store_from_request(self.request)

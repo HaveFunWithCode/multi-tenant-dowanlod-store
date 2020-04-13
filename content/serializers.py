@@ -58,3 +58,4 @@ class ProductSerializer(ModelSerializer):
         fields = ['name', 'files', 'categories', 'price']
 
 
+
