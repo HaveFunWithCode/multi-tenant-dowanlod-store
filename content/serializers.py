@@ -14,7 +14,6 @@ class FileSerializer(ModelSerializer):
         fields = ('id',
                   'name',
                   'price',
-                  'file_path',
                   'size',
                   'file_type',
                   'since_add')
