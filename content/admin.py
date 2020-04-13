@@ -9,6 +9,7 @@ class FileAdmin(admin.TabularInline):
     readonly_fields = ['data_created', ]
     fields = ['name',
               'price',
+              'order',
               'file_path',
               'data_created',
               'description', ]

@@ -18,6 +18,9 @@ class Product(StoreAwareModel):
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
 
 def content_file_name(instance, filename):
     subdomain_prefix = instance.product.store.subdomain_prefix
@@ -31,3 +34,8 @@ class File(models.Model):
     price = models.BigIntegerField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
