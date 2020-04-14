@@ -25,7 +25,7 @@ SECRET_KEY = '-9!ln4yl0a8%2o2cr7^cq(y_$2n&cm*45y76w+khe2rtw7i%+z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['store.local', '.store.local']
+ALLOWED_HOSTS = [ '127.0.0.1','store.local', '.store.local']
 
 
 # Application definition
@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'stores',
     'content',
+    'users',
+    'membership',
+    'payment',
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -52,6 +55,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 ROOT_URLCONF = 'multi_store.urls'
 
@@ -80,7 +88,7 @@ WSGI_APPLICATION = 'multi_store.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mulstore',
+        'NAME': 'dstore',
         'USER': 'muser',
         'PASSWORD': '123',
         'HOST': 'localhost',
@@ -115,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
@@ -134,3 +142,5 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTH_USER_MODEL = 'users.StoreUser'

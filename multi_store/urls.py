@@ -6,6 +6,9 @@ from content import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', include('users.urls')),
+    path('membership/', include('membership.urls')),
+    path('payment/', include('payment.urls')),
     path('',include(urls.router.urls))
 ]
 
