@@ -13,7 +13,17 @@ from .serializers import RegisterSerializer, LoginSerializer, CustomerProfileSer
 class RegisterView(CreateAPIView):
     serializer_class = RegisterSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        email = serializer.validated_data['email']
+        return Response(data={'message': "dear user with email {0},"
+                                         " you successfully registered".format(email)},
+                        status=status.HTTP_201_CREATED, headers=headers)
 
+# TODO: add list of orders in profile
 class ProfileView(ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = CustomerProfileSerializer
@@ -25,29 +35,19 @@ class ProfileView(ModelViewSet):
         return Response(self.serializer_class(user.customerProfile).data)
 
 
-# TODO: should add check is_verified
 class LoginAPIView(APIView):
     serializer_class = LoginSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response(data={'token': token.key}, status=status.HTTP_200_OK)
 
 
 class logoutView(APIView):
+
     def post(self, request):
         logout(request)
-        return Response(data={'success': 'Sucessfully logged out'}, status=status.HTTP_200_OK)
-
-# def verifyemail(request, uuid):
-#     try:
-#         user = CustomerUser.objects.get(verification_uuid=uuid, is_verified=False)
-#     except CustomerUser.DoesNotExist:
-#         raise Http404("User does not exist or is already verified")
-#     user.is_verified = True
-#     user.save()
-#     return redirect('profile')
+        return Response(data={'message': 'Sucessfully logged out'}, status=status.HTTP_200_OK)
