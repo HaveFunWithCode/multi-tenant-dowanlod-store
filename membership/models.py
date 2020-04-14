@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 
 from stores.models import Store
@@ -8,10 +6,13 @@ from django.utils.translation import gettext_lazy as _
 
 
 class MemberShipPlans(models.Model):
-    MONTH1 =1
-    MONTH3 = 3
-    MONTH6 = 6
-    YEARLY = 12
+    """ a Model for membership plane specified to a special store with specific price
+    in which each plane time rage's key is based on the number of day  """
+
+    MONTH1 = 1*30
+    MONTH3 = 3*30
+    MONTH6 = 6*30
+    YEARLY = 12*30
 
     TIME_RANGE_CHOICES = [
 
@@ -21,7 +22,7 @@ class MemberShipPlans(models.Model):
         (YEARLY, _('1 year')),
     ]
 
-    type = models.IntegerField(choices=TIME_RANGE_CHOICES,default=MONTH1)
+    type = models.IntegerField(choices=TIME_RANGE_CHOICES, default=MONTH1)
     price = models.IntegerField()
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     description = models.TextField()
@@ -48,6 +49,5 @@ class MemberShipOrder(models.Model):
     order_at = models.DateTimeField(auto_now_add=True)
 
     start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-    order_status = models.CharField(choices=ODRER_STATUS,max_length=12, default=PENDING)
-    is_active = models.BooleanField(default=True)
+    order_status = models.CharField(choices=ODRER_STATUS, max_length=12, default=PENDING)
+    is_active = models.BooleanField(default=False)
