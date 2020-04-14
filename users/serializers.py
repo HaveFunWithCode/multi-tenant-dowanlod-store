@@ -1,11 +1,12 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from .models import CustomerUser
+from rest_framework.authtoken.models import Token
+
+from .models import StoreUser, CustomerUser
 
 
 class CustomerProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CustomerUser
         fields = ('email',)
@@ -38,7 +39,7 @@ class LoginSerializer(serializers.Serializer):
         return data
 
     class Meta:
-        model = CustomerUser
+        model = StoreUser
         fields = ('email', 'password',)
         extra_kwargs = {'password': {'write_only': True}}
 
@@ -55,10 +56,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         style={'input_type': 'password', 'placeholder': 'Password'}
     )
 
-
-
     def validate_email(self, email):
-        existed = CustomerUser.objects.filter(email=email).first()
+        existed = StoreUser.objects.filter(email=email).first()
         if existed:
             raise serializers.ValidationError(_('Another user have registered with the same email before!'))
         return email
@@ -71,13 +70,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        user = CustomerUser(email=validated_data['email'])
+        user = StoreUser(email=validated_data['email'])
         user.set_password(validated_data['password'])
         user.save()
+        CustomerUser.objects.create(user=user)
+        Token.objects.create(user=user)
         # send_verification_email.delay(user.id)
         return user
 
     class Meta:
-        model = CustomerUser
-        fields = ('email', 'password', 'confirm_password', 'customerProfile',)
+        model = StoreUser
+        fields = ('email', 'password', 'confirm_password',)
         extra_kwargs = {'password': {'write_only': True}}
