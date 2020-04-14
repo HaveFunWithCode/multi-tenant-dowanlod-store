@@ -46,5 +46,8 @@ class MemberShipOrder(models.Model):
     plan = models.ForeignKey(MemberShipPlans, on_delete=models.CASCADE)
     customer = models.ForeignKey(CustomerUser, on_delete=models.CASCADE)
     order_at = models.DateTimeField(auto_now_add=True)
+
+    start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    status = models.CharField(choices=ODRER_STATUS,max_length=12, default=PENDING)
+    order_status = models.CharField(choices=ODRER_STATUS,max_length=12, default=PENDING)
+    is_active = models.BooleanField(default=True)
