@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from cart.models import Cart
 from .models import StoreUser, CustomerUser
 
 
@@ -73,9 +74,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = StoreUser(email=validated_data['email'])
         user.set_password(validated_data['password'])
         user.save()
-        CustomerUser.objects.create(user=user)
+        customer = CustomerUser.objects.create(user=user)
         Token.objects.create(user=user)
-        # send_verification_email.delay(user.id)
+        Cart.objects.create(customer=customer)
         return user
 
     class Meta:
