@@ -11,7 +11,8 @@ urlpatterns = [
     path('membership/', include('membership.urls')),
     path('payment/', include('payment.urls')),
     path('cart/', include('cart.urls')),
-    path('',include("content.urls")),
+    path('', include("content.urls")),
+    path('registerorder/', include('order.urls')),
 ]
 
 if settings.DEBUG:
