@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 
 from cart.models import Cart
 from order.models import Order, OrderItem
-from order.serializers import OrderSerializer
 
 
 class OrderRegisterView(APIView):
