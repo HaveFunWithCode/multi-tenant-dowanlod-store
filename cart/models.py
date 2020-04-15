@@ -14,7 +14,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     """Model for saving shopping cart items in which if file is null it means customer wanna buy the whole product"""
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE,related_name='cartitems')
     product = models.ForeignKey(Product, null=True, unique=True, on_delete=models.CASCADE)
     file = models.ForeignKey(File, null=True, unique=True, on_delete=models.CASCADE)
     create_date = models.DateField(auto_now_add=True)

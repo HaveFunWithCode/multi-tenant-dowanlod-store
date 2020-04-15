@@ -33,11 +33,17 @@ class CartView(APIView):
                 CartItem.objects.create(cart=cart, product=cart_item_object, price=cart_item_object.price)
             except IntegrityError:
                 return Response({"cart": self.serializer_class(cart).data,
-                                 "message": _("selected file or product already existed in cart")},
+                                 "message": _("selected product already existed in cart")},
                                 status=status.HTTP_400_BAD_REQUEST)
         else:
-            CartItem.objects.create(cart=cart, file=cart_item_object, price=cart_item_object.price)
-
+            try:
+                CartItem.objects.create(cart=cart, file=cart_item_object, price=cart_item_object.price)
+            except IntegrityError:
+                return Response({"cart": self.serializer_class(cart).data,
+                                 "message": _("selected file already existed in cart")},
+                                status=status.HTTP_400_BAD_REQUEST)
+        cart.total_price += cart_item_object.price
+        cart.save(update_fields=['total_price'])
         return Response({'cart': self.serializer_class(cart).data}, status=status.HTTP_201_CREATED)
 
     # remove from cart (parameter id is equal to cartItem id)
@@ -45,11 +51,14 @@ class CartView(APIView):
         cart = Cart.objects.get(customer=request.user.customeruser)
         cart_item_id = request.data['id']
         try:
-            CartItem.objects.get(id=cart_item_id).delete()
+            cart_item_object=CartItem.objects.get(id=cart_item_id)
+            cart_item_object.delete()
         except CartItem.DoesNotExist:
             return Response({"cart": self.serializer_class(cart).data,
                              "message": _("No such item exist")},
                             status=status.HTTP_400_BAD_REQUEST)
+        cart.total_price -= cart_item_object.price
+        cart.save(update_fields=['total_price'])
         return Response({"cart": self.serializer_class(cart).data,
                          "message": _("Successfully removed from cart")},
                         status=status.HTTP_200_OK)
