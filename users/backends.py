@@ -15,7 +15,7 @@ class StoreBackend(ModelBackend):
             user = StoreUser.objects.get(email=username)
             if user.check_password(password) is True:
                 # check authenticated user is owner of store or not
-                if user.is_staff:
+                if user.is_staff and not user.is_superuser:
                     store_name = store_from_request(request)
                     try:
                         is_owner = Store.objects.get(owner__user=user, name=store_name)
