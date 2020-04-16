@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"ali3@gmail.com\",\n    \"password\": \"123\",\n    \"confirm_password\":\"123\"\n}",
+							"raw": "{\n    \"email\": \"ali5@gmail.com\",\n    \"password\": \"123\",\n    \"confirm_password\":\"123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,10 +44,29 @@
 				{
 					"name": "login",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ali5@gmail.com\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "store.local:8000/users/login/",
+							"host": [
+								"store",
+								"local"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"login",
+								""
+							]
 						}
 					},
 					"response": []
@@ -84,9 +103,29 @@
 					"name": "plans",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
-							"raw": ""
+							"raw": "http://127.0.0.1:8000/membership/plans/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"membership",
+								"plans",
+								""
+							]
 						}
 					},
 					"response": []
@@ -98,13 +137,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Token 50a4bab261bb67544a603cffd75c4473ff76de19",
+								"value": "Token 014b1bda0d8fe0fed2eaaef968118c6683cc2ab5",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\n}",
+							"raw": "{\n\t\"plan\":9,\n\t\"start_date\": \"2020-10-12\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -137,13 +176,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Token 2482e3dcfd8b4fa6c021b7b2c20039577e3dfcd3",
+								"value": "Token 014b1bda0d8fe0fed2eaaef968118c6683cc2ab5",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"plan\":7,\n\t\"start_date\": \"2020-04-15\",\n\t\"f\":1\n}",
+							"raw": "{\n\t\"plan\":9,\n\t\"start_date\": \"2020-04-30\",\n\t\"f\":1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -184,46 +223,397 @@
 			"name": "content",
 			"item": [
 				{
+					"name": "category",
+					"item": [
+						{
+							"name": "category update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\":\"Art\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://sepehr.store.local:8000/listcategory/1/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"listcategory",
+										"1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "category list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://sepehr.store.local:8000/listcategory/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"listcategory",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "category add",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"name\":\"Math\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://sepehr.store.local:8000/listcategory/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"listcategory",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "category delete ",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://sepehr.store.local:8000/listcategory/5/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"listcategory",
+										"5",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "product",
+					"item": [
+						{
+							"name": "upload file to product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "shahdad2",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "file_path",
+											"type": "file",
+											"src": "/home/msepehr/Music/02 - Shardad Rohan - Forest Gump (Main Theme) - Alan Sylverstri.mp3"
+										},
+										{
+											"key": "",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://sepehr.store.local:8000/upload/?product_id=9",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"upload",
+										""
+									],
+									"query": [
+										{
+											"key": "product_id",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://sepehr.store.local:8000/addproduct/19/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"addproduct",
+										"19",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update product",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									},
+									{
+										"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "fffffffgggggg",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://sepehr.store.local:8000/addproduct/19/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"addproduct",
+										"19",
+										""
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "new product4",
+											"type": "text"
+										},
+										{
+											"key": "categories_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "categories_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "10000",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://sepehr.store.local:8000/addproduct/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"addproduct",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list product",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 9ee7676d11b34f28a073895de398da3be7e1de2c",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://sepehr.store.local:8000/products/",
+									"protocol": "http",
+									"host": [
+										"sepehr",
+										"store",
+										"local"
+									],
+									"port": "8000",
+									"path": [
+										"products",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "admin get token ",
 					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "upload file for created product",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "add product",
-					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Token 28cb3a4b52d50e82516b0801050be69a10bc3987",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Dejangho\",\n    \"price\": \"4000\"\n}",
+							"raw": "{\n    \"username\": \n        \"sepehr2@gmail.com\"\n    ,\n    \"password\": \n        \"qazwsxedc!\"\n    \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -231,7 +621,8 @@
 							}
 						},
 						"url": {
-							"raw": "sepehr.store.local:8000/addproduct/",
+							"raw": "http://sepehr.store.local:8000/users/api-token-auth/",
+							"protocol": "http",
 							"host": [
 								"sepehr",
 								"store",
@@ -239,7 +630,8 @@
 							],
 							"port": "8000",
 							"path": [
-								"addproduct",
+								"users",
+								"api-token-auth",
 								""
 							]
 						}
@@ -262,7 +654,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Token 2064b45e998fb69b9638fc98d6e7fe1e9c2d2d37",
+								"value": "Token 14024541a9af7321730529b9c7809a75add1b4e7",
 								"type": "text"
 							}
 						],
@@ -289,10 +681,37 @@
 				{
 					"name": "add to cart (product)",
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 14024541a9af7321730529b9c7809a75add1b4e7",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":3,\n\t\"type\":\"p\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "http://sepehr.store.local:8000/cart/add/",
+							"protocol": "http",
+							"host": [
+								"sepehr",
+								"store",
+								"local"
+							],
+							"port": "8000",
+							"path": [
+								"cart",
+								"add",
+								""
+							]
 						}
 					},
 					"response": []
@@ -301,7 +720,13 @@
 					"name": "add to cart ( file)",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 14024541a9af7321730529b9c7809a75add1b4e7",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"id\":3,\n\t\"type\":\"f\"\n}",
@@ -333,10 +758,16 @@
 					"name": "remove cart_item from cart",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 2064b45e998fb69b9638fc98d6e7fe1e9c2d2d37",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\":1\n}",
+							"raw": "{\n\t\"id\":5\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -388,9 +819,26 @@
 					"name": "list product",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 14024541a9af7321730529b9c7809a75add1b4e7",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": ""
+							"raw": "http://sepehr.store.local:8000/products/",
+							"protocol": "http",
+							"host": [
+								"sepehr",
+								"store",
+								"local"
+							],
+							"port": "8000",
+							"path": [
+								"products",
+								""
+							]
 						}
 					},
 					"response": []
