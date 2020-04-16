@@ -56,16 +56,17 @@ class FileUploadView(APIView):
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CategoryListAPIView(ListAPIView):
+class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    permission_classes = [IsOwnerOfStore, ]
 
 
 class FileUploadViewSet(ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileUploadSerializer
     parser_classes = (MultiPartParser, FormParser,)
-    # permission_classes = [IsOwnerOfStore, ]
+    permission_classes = [IsOwnerOfStore, ]
 
     def get_queryset(self):
         product_id = self.request.query_params['product_id']
