@@ -6,6 +6,7 @@ from .utils import has_file_permission_access
 
 
 class FileSerializer(ModelSerializer):
+
     size = serializers.SerializerMethodField()
     file_type = serializers.SerializerMethodField()
     since_add = serializers.SerializerMethodField()
@@ -63,22 +64,33 @@ class ProductSerializer(ModelSerializer):
 
 
 class ProductAddSerializer(ModelSerializer):
+    categories = CategorySerializer(read_only=True, many=True)
+    categories_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(),
+                                                       write_only=True, many=True)
+
     class Meta:
         model = Product
-        fields = ['name', 'price']
+        fields = ['name',
+                  'price',
+                  'categories',
+                  'description',
+                  'categories_id']
 
     def create(self, validated_data):
         request = self.context.get('request')
         store = store_from_request(request)
+        categories = validated_data.pop('categories_id')
         product = Product(store_id=store.id,
                           name=validated_data['name'],
-                          price=validated_data['price'])
+                          price=validated_data['price'],
+                          description=validated_data['description'])
         product.save()
+        for cat in categories:
+            product.categories.add(cat)
         return product
 
 
 class FileUploadSerializer(serializers.ModelSerializer):
-
     product = serializers.SlugRelatedField(
         read_only=True,
         slug_field='id'
@@ -86,9 +98,9 @@ class FileUploadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = File
-        read_only_fields = ('data_created','product')
+        read_only_fields = ('data_created', 'product')
         fields = ['id',
                   'name',
                   'price',
                   'description',
-                  'order','product','file_path']
+                  'order', 'product', 'file_path']
