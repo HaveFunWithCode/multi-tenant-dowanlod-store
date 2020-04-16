@@ -77,44 +77,18 @@ class ProductAddSerializer(ModelSerializer):
         return product
 
 
-class FileUploadSerializer(ModelSerializer):
-    size = serializers.SerializerMethodField()
-    name = serializers.SerializerMethodField()
-    file_type = serializers.SerializerMethodField()
-    since_add = serializers.SerializerMethodField()
-    product_id = serializers.SerializerMethodField()
+class FileUploadSerializer(serializers.ModelSerializer):
+
+    product = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='id'
+    )
 
     class Meta:
         model = File
-        fields = ('id',
+        read_only_fields = ('data_created','product')
+        fields = ['id',
                   'name',
                   'price',
-                  'size',
-                  'file_type',
-                  'since_add',
-                  'file_path',
-                  'product_id')
-
-    def get_size(self, obj):
-        file_size = ''
-        if obj.file_path and hasattr(obj.file_path, 'size'):
-            file_size = obj.file_path.size
-        return file_size
-
-    def get_name(self, obj):
-        file_name = ''
-        if obj.file_path and hasattr(obj.file_path, 'name'):
-            file_name = obj.file_path.name
-        return file_name
-
-    def get_file_type(self, obj):
-        filename = obj.file_path.name
-        return filename.split('.')[-1]
-
-    def get_since_add(self, obj):
-        date_added = obj.data_created
-        return date_added
-
-    def get_product_id(self, obj):
-        request = self.context['request']
-        return request.data['product_id']
+                  'description',
+                  'order','product','file_path']
