@@ -5,13 +5,11 @@ from stores.utils import store_from_request
 from .utils import has_file_permission_access
 
 
-
-
 class FileSerializer(ModelSerializer):
     size = serializers.SerializerMethodField()
     file_type = serializers.SerializerMethodField()
     since_add = serializers.SerializerMethodField()
-    file_path =serializers.SerializerMethodField()
+    file_path = serializers.SerializerMethodField()
 
     class Meta:
         model = File
@@ -22,6 +20,7 @@ class FileSerializer(ModelSerializer):
                   'file_type',
                   'since_add',
                   'file_path')
+
     def get_file_path(self, obj):
         request = self.context.get('request')
         if has_file_permission_access(user=request.user, fileobj=obj):
@@ -29,13 +28,11 @@ class FileSerializer(ModelSerializer):
         else:
             return "(ACESSDENIED)"
 
-
     def get_size(self, obj):
         file_size = ''
         if obj.file_path and hasattr(obj.file_path, 'size'):
             file_size = obj.file_path.size
         return file_size
-
 
     def get_file_type(self, obj):
         filename = obj.file_path.name
@@ -64,22 +61,60 @@ class ProductSerializer(ModelSerializer):
         model = Product
         fields = ['id', 'name', 'files', 'categories', 'price']
 
-# class ProductAddSerializer(ModelSerializer):
-#
-#     categories = CategorySerializer(many=True)
-#
-#     class Meta:
-#         model = Product
-#         fields =['name', 'categories', 'price']
-#
-#     def create(self, validated_data):
-#         request = self.context.get('request')
-#
-#         store_user = request.user
-#         store = store_from_request(request)
-#         product = ProductSerializer(store__id=store.id,
-#                                     name=validated_data['name'],
-#                                     price=validated_data['price'],
-#                                     categories=validated_data['categories'])
-#         product.save()
-#         return product.id
+
+class ProductAddSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['name', 'price']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        store = store_from_request(request)
+        product = Product(store_id=store.id,
+                          name=validated_data['name'],
+                          price=validated_data['price'])
+        product.save()
+        return product
+
+
+class FileUploadSerializer(ModelSerializer):
+    size = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
+    file_type = serializers.SerializerMethodField()
+    since_add = serializers.SerializerMethodField()
+    product_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = File
+        fields = ('id',
+                  'name',
+                  'price',
+                  'size',
+                  'file_type',
+                  'since_add',
+                  'file_path',
+                  'product_id')
+
+    def get_size(self, obj):
+        file_size = ''
+        if obj.file_path and hasattr(obj.file_path, 'size'):
+            file_size = obj.file_path.size
+        return file_size
+
+    def get_name(self, obj):
+        file_name = ''
+        if obj.file_path and hasattr(obj.file_path, 'name'):
+            file_name = obj.file_path.name
+        return file_name
+
+    def get_file_type(self, obj):
+        filename = obj.file_path.name
+        return filename.split('.')[-1]
+
+    def get_since_add(self, obj):
+        date_added = obj.data_created
+        return date_added
+
+    def get_product_id(self, obj):
+        request = self.context['request']
+        return request.data['product_id']
