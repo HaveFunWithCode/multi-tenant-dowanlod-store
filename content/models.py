@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils import timezone
 
@@ -28,8 +29,10 @@ def content_file_name(instance, filename):
 
 
 class File(models.Model):
+    valid_extentions =['pdf','avi','mp4','mp3']
+
     name = models.CharField(max_length=255, null=False, unique=True)
-    file_path = models.FileField(upload_to=content_file_name)
+    file_path = models.FileField(upload_to=content_file_name,validators=[FileExtensionValidator(allowed_extensions=valid_extentions)])
     data_created = models.DateTimeField(default=timezone.now)
     price = models.BigIntegerField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
