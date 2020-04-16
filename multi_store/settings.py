@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'payment',
     'cart',
     'order',
+    'django_extensions',
 
 ]
 
@@ -150,3 +151,4 @@ AUTH_USER_MODEL = 'users.StoreUser'
 AUTHENTICATION_BACKENDS = [
     'users.backends.StoreBackend',
 ]
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
