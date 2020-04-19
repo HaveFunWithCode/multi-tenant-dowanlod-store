@@ -2,9 +2,11 @@ from django.db import models
 from users.models import StoreAdminUser
 
 class Store(models.Model):
+
     name = models.CharField(max_length=100)
     subdomain_prefix = models.CharField(max_length=100, unique=True)
-    owner = models.ForeignKey(StoreAdminUser,on_delete=models.CASCADE)
+    owner = models.ForeignKey(StoreAdminUser, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
