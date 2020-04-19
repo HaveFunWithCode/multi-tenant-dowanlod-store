@@ -101,6 +101,16 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "mustore"
+    }
+}
 
 
 # Password validation
@@ -147,8 +157,11 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# user model setting
 AUTH_USER_MODEL = 'users.StoreUser'
 AUTHENTICATION_BACKENDS = [
     'users.backends.StoreBackend',
 ]
+
+
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
