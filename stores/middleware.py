@@ -3,7 +3,7 @@ from django.db import connection
 from .utils import hostname_from_request
 
 
-class CustomTenantMiddleware(object):
+class SubdomainURlConfMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
 
