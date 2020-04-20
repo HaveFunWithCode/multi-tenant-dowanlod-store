@@ -25,7 +25,7 @@ SECRET_KEY = '-9!ln4yl0a8%2o2cr7^cq(y_$2n&cm*45y76w+khe2rtw7i%+z'
 DEBUG = True
 
 BASE_DOMAIN = 'store.local'
-ALLOWED_HOSTS = ['127.0.0.1', BASE_DOMAIN, '.{}'.format(BASE_DOMAIN)]
+ALLOWED_HOSTS = [ BASE_DOMAIN, '.{}'.format(BASE_DOMAIN)]
 
 # Application definition
 
@@ -163,3 +163,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
+
+
+# cache setting
+CACHE_TTL = 60 * 15
