@@ -1,3 +1,5 @@
+from contextlib import contextmanager
+
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import Product, Category, File
@@ -5,8 +7,15 @@ from stores.utils import store_from_request
 from .utils import has_file_permission_access
 
 
-class FileSerializer(ModelSerializer):
+@contextmanager
+def LogFileNotFound(*exceptions):
+    try:
+        yield
+    except FileNotFoundError:
+        pass
 
+
+class FileSerializer(ModelSerializer):
     size = serializers.SerializerMethodField()
     file_type = serializers.SerializerMethodField()
     since_add = serializers.SerializerMethodField()
@@ -30,14 +39,16 @@ class FileSerializer(ModelSerializer):
             return "(ACESSDENIED)"
 
     def get_size(self, obj):
-        file_size = ''
-        if obj.file_path and hasattr(obj.file_path, 'size'):
-            file_size = obj.file_path.size
-        return file_size
+        with LogFileNotFound(Exception):
+            file_size = ''
+            if obj.file_path and hasattr(obj.file_path, 'size'):
+                file_size = obj.file_path.size
+            return file_size
 
     def get_file_type(self, obj):
-        filename = obj.file_path.name
-        return filename.split('.')[-1]
+        with LogFileNotFound(Exception):
+            filename = obj.file_path.name
+            return filename.split('.')[-1]
 
     def get_since_add(self, obj):
         date_added = obj.data_created
@@ -55,8 +66,9 @@ class ProductSerializer(ModelSerializer):
     categories = CategorySerializer(read_only=True, many=True)
 
     def get_files(self, obj):
-        files = File.objects.all().filter(product__id=obj.id)
-        return FileSerializer(files, many=True, read_only=True, context=self.context).data
+        with LogFileNotFound(Exception):
+            files = File.objects.all().filter(product__id=obj.id)
+            return FileSerializer(files, many=True, read_only=True, context=self.context).data
 
     class Meta:
         model = Product
