@@ -18,7 +18,7 @@ from stores.utils import store_from_request
 
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from .decoratores import cache_per_store
+from .decorators import cache_per_store
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 

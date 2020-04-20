@@ -53,12 +53,11 @@ class MemberShipSubscribeSerializer(ModelSerializer):
 
             if 'f' not in request.data:
 
-                raise serializers.ValidationError(_("There is another plan which you which will be expire at {0}."
-                                                    " please choose start_date after expire date or, "
-                                                    " if you want to subscribe in new plan and cancel"
-                                                    " the previous one pass the f=1 as parameter "
-                                                    "(in this way your new plane will be start from today)".format(
-                    expire_date)))
+                raise serializers.ValidationError(_("There is another plan which will be expire at {0}."
+                                        " please choose start_date after expire date or, "
+                                        " if you want to subscribe in new plan and cancel"
+                                        " the previous one pass the f=1 as parameter "
+                                        "(in this way your new plane will be start from today)".format(expire_date)))
             # cancel previous active overlapped plan  if user want it
             # (with sending parameter f=1)
             else:

@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 class MemberShipPlans(models.Model):
     """ a Model for membership plane specified to a special store with specific price
-    in which each plane time rage's key is based on the number of day  """
+    in which each plane time range's key is based on the number of day  """
 
     MONTH1 = 1*30
     MONTH3 = 3*30
